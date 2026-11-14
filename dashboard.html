@@ -36,6 +36,23 @@
             height: 100%;
             box-sizing: border-box;
         }
+
+        .crew-card {
+            background: #10294a;
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border: 1px solid #258bce;
+        }
+
+        .crew-card p {
+            font-size: 16px;
+            margin: 12px 0;
+        }
+
+        .crew-health-title {
+            color: #32e875;
+        }
     </style>
 </head>
 
@@ -50,18 +67,32 @@
 
         <h2>🌕 Mission Control Center</h2>
 
+        <!-- Mission Timer -->
         <h3>⏱️ Mission Elapsed Time</h3>
         <h2 id="missionTimer">00:00:00</h2>
 
+        <!-- Mission Resources -->
         <h3>Mission Resources</h3>
 
         <div class="monitor-card">
-            <p>🫁 Oxygen: <span id="oxygenValue" class="status-normal">100%</span></p>
-            <p>💧 Water: <span id="waterValue" class="status-normal">100%</span></p>
-            <p>🍎 Food: <span id="foodValue" class="status-normal">100%</span></p>
-            <p>⚡ Power: <span id="powerValue" class="status-normal">100%</span></p>
+            <p>🫁 Oxygen:
+                <span id="oxygenValue" class="status-normal">100%</span>
+            </p>
+
+            <p>💧 Water:
+                <span id="waterValue" class="status-normal">100%</span>
+            </p>
+
+            <p>🍎 Food:
+                <span id="foodValue" class="status-normal">100%</span>
+            </p>
+
+            <p>⚡ Power:
+                <span id="powerValue" class="status-normal">100%</span>
+            </p>
         </div>
 
+        <!-- Solar Radiation Monitor -->
         <h3>☀️ Solar Radiation Monitor</h3>
 
         <div class="monitor-card">
@@ -70,10 +101,13 @@
             </p>
 
             <p>Hazard Status:
-                <strong id="radiationStatus" class="status-normal">Normal</strong>
+                <strong id="radiationStatus" class="status-normal">
+                    Normal
+                </strong>
             </p>
         </div>
 
+        <!-- Lunar Dust Monitor -->
         <h3>🌑 Lunar Dust Hazard Monitor</h3>
 
         <div class="monitor-card">
@@ -82,16 +116,54 @@
             </p>
 
             <p>Dust Status:
-                <strong id="dustStatus" class="status-normal">Normal</strong>
+                <strong id="dustStatus" class="status-normal">
+                    Normal
+                </strong>
             </p>
         </div>
 
+        <!-- Crew Health Monitor -->
+        <h3>👨‍🚀 Crew Health & Safety Monitor</h3>
+
+        <div class="crew-card">
+
+            <h3 class="crew-health-title">
+                Astronaut Health Status
+            </h3>
+
+            <p>❤️ Heart Rate:
+                <strong id="heartRateValue">75 BPM</strong>
+            </p>
+
+            <p>🫁 Blood Oxygen:
+                <strong id="crewOxygenValue">98%</strong>
+            </p>
+
+            <p>🌡️ Body Temperature:
+                <strong id="temperatureValue">37°C</strong>
+            </p>
+
+            <p>🛡️ Overall Health:
+                <strong id="crewHealthStatus" class="status-normal">
+                    Normal
+                </strong>
+            </p>
+
+        </div>
+
+        <p style="font-size: 12px; color: #aabbd0;">
+            Note: Crew health readings are simulated training values,
+            not real astronaut medical measurements.
+        </p>
+
     </main>
 
+    <!-- JavaScript Files -->
     <script src="js/resources.js"></script>
     <script src="js/simulation.js"></script>
     <script src="js/solar.js"></script>
     <script src="js/dust.js"></script>
+    <script src="js/crew.js"></script>
     <script src="js/dashboard.js"></script>
 
 </body>

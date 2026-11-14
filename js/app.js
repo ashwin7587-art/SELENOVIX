@@ -9,6 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let missionStarted = false;
 
+    // Create Emergency Center button
+    const emergencyButton = document.createElement("button");
+
+    emergencyButton.textContent = "🚨 Emergency Center";
+
+    emergencyButton.style.cssText = `
+        display: block;
+        margin: 15px auto;
+        padding: 12px 22px;
+        background: #b82035;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    `;
+
+    startButton.insertAdjacentElement("afterend", emergencyButton);
+
+    // Open mission dashboard
     startButton.addEventListener("click", function () {
 
         if (missionStarted) {
@@ -18,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         missionStarted = true;
 
-        // Create dashboard overlay
         const overlay = document.createElement("div");
         overlay.id = "dashboardOverlay";
 
@@ -32,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
             z-index: 9999;
         `;
 
-        // Dashboard panel
         const panel = document.createElement("div");
 
         panel.style.cssText = `
@@ -46,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
             position: relative;
         `;
 
-        // Close button
         const closeButton = document.createElement("button");
         closeButton.textContent = "✕ Close";
 
@@ -63,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.style.display = "none";
         });
 
-        // Dashboard iframe
         const frame = document.createElement("iframe");
         frame.src = "dashboard.html";
 
@@ -79,10 +95,80 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(overlay);
 
         startButton.textContent = "Mission In Progress";
+    });
+
+
+    // Open separate Emergency Center popup
+    emergencyButton.addEventListener("click", function () {
+
+        let overlay = document.getElementById("emergencyOverlay");
+
+        if (overlay) {
+            overlay.style.display = "flex";
+            return;
+        }
+
+        overlay = document.createElement("div");
+        overlay.id = "emergencyOverlay";
+
+        overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        `;
+
+        const panel = document.createElement("div");
+
+        panel.style.cssText = `
+            width: 92%;
+            max-width: 900px;
+            height: 88vh;
+            background: #071a35;
+            border: 2px solid #ff4545;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        `;
+
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "✕ Close";
+
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            padding: 8px 14px;
+            cursor: pointer;
+        `;
+
+        closeButton.addEventListener("click", function () {
+            overlay.style.display = "none";
+        });
+
+        const frame = document.createElement("iframe");
+        frame.id = "emergencyFrame";
+        frame.src = "emergency.html";
+
+        frame.style.cssText = `
+            width: 100%;
+            height: 100%;
+            border: none;
+        `;
+
+        panel.appendChild(closeButton);
+        panel.appendChild(frame);
+        overlay.appendChild(panel);
+        document.body.appendChild(overlay);
 
     });
 
 });
+
 
 // Receive dashboard updates
 window.addEventListener("message", function (event) {
@@ -91,16 +177,29 @@ window.addEventListener("message", function (event) {
 
     const data = event.data;
 
-    if (!data || data.type !== "mission-update") return;
+    if (!data) return;
 
-    // Update mission timer
+    // Close Emergency Center when requested
+    if (data.type === "close-emergency") {
+        const overlay = document.getElementById("emergencyOverlay");
+
+        if (overlay) {
+            overlay.style.display = "none";
+        }
+
+        return;
+    }
+
+    if (data.type !== "mission-update") return;
+
+    // Update main page mission timer
     const timer = document.getElementById("missionTimer");
 
     if (timer && data.missionTime) {
         timer.textContent = data.missionTime;
     }
 
-    // Update resources
+    // Update main page resources
     if (data.resources) {
         updateResourceCard("oxygenValue", data.resources.oxygen);
         updateResourceCard("waterValue", data.resources.water);
@@ -108,8 +207,9 @@ window.addEventListener("message", function (event) {
         updateResourceCard("powerValue", data.resources.power);
     }
 
-    // Update radiation
+    // Update main page radiation
     if (data.hazard) {
+
         const value = document.getElementById("radiationValue");
         const status = document.getElementById("radiationStatus");
 
@@ -118,24 +218,22 @@ window.addEventListener("message", function (event) {
         }
 
         if (status) {
-            status.textContent = data.hazard.status;
-            status.classList.remove(
-                "status-normal",
-                "status-warning",
-                "status-danger"
-            );
-
-            if (data.hazard.status === "DANGER") {
-                status.classList.add("status-danger");
-            } else if (data.hazard.status === "WARNING") {
-                status.classList.add("status-warning");
-            } else {
-                status.classList.add("status-normal");
-            }
+            updateStatusElement(status, data.hazard.status);
         }
     }
 
+    // Forward mission data to Emergency Center
+    const emergencyFrame = document.getElementById("emergencyFrame");
+
+    if (emergencyFrame && emergencyFrame.contentWindow) {
+        emergencyFrame.contentWindow.postMessage(
+            data,
+            window.location.origin
+        );
+    }
+
 });
+
 
 // Update resource cards and their colours
 function updateResourceCard(elementId, value) {
@@ -146,17 +244,32 @@ function updateResourceCard(elementId, value) {
 
     element.textContent = value + "%";
 
+    if (value >= 70) {
+        updateStatusElement(element, "Normal");
+    } else if (value > 30) {
+        updateStatusElement(element, "WARNING");
+    } else {
+        updateStatusElement(element, "DANGER");
+    }
+}
+
+
+// Update status colours
+function updateStatusElement(element, status) {
+
+    element.textContent = status;
+
     element.classList.remove(
         "status-normal",
         "status-warning",
         "status-danger"
     );
 
-    if (value >= 70) {
-        element.classList.add("status-normal");
-    } else if (value > 30) {
+    if (status === "DANGER") {
+        element.classList.add("status-danger");
+    } else if (status === "WARNING") {
         element.classList.add("status-warning");
     } else {
-        element.classList.add("status-danger");
+        element.classList.add("status-normal");
     }
 }

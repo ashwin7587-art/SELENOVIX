@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SELENOVIX - Emergency Control Center</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #06152b;
+            color: white;
+        }
+
+        main {
+            padding: 25px;
+        }
+
+        .emergency-header {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ff4545;
+            border-radius: 12px;
+            background: #291323;
+        }
+
+        .emergency-header h2 {
+            color: #ff4545;
+        }
+
+        .alert-card {
+            background: #10294a;
+            border: 1px solid #258bce;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 15px 0;
+        }
+
+        .alert-normal {
+            color: #32e875;
+        }
+
+        .alert-warning {
+            color: #ffd43b;
+        }
+
+        .alert-danger {
+            color: #ff4545;
+        }
+
+        .recommendation {
+            background: #172f4d;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .close-button {
+            display: block;
+            margin: 25px auto;
+            padding: 12px 25px;
+            background: #b82035;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .close-button:hover {
+            background: #e02d45;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>SELENOVIX</h1>
+        <p>Emergency Mission Control Center</p>
+    </header>
+
+    <main>
+
+        <!-- Emergency Status -->
+        <div class="emergency-header">
+
+            <h2>🚨 EMERGENCY CONTROL CENTER</h2>
+
+            <p>Monitor mission threats and protect your crew.</p>
+
+            <h3 id="overallStatus" class="alert-normal">
+                WAITING FOR MISSION DATA
+            </h3>
+
+        </div>
+
+        <!-- Resource Emergency Monitor -->
+        <h3>🫁 Resource Emergency Monitor</h3>
+
+        <div class="alert-card">
+
+            <p>Oxygen:
+                <strong id="emergencyOxygen">100%</strong>
+            </p>
+
+            <p>Water:
+                <strong id="emergencyWater">100%</strong>
+            </p>
+
+            <p>Food:
+                <strong id="emergencyFood">100%</strong>
+            </p>
+
+            <p>Power:
+                <strong id="emergencyPower">100%</strong>
+            </p>
+
+        </div>
+
+        <!-- Environmental Monitor -->
+        <h3>☀️ Environmental Emergency Monitor</h3>
+
+        <div class="alert-card">
+
+            <p>Solar Radiation:
+                <strong id="emergencyRadiation">20%</strong>
+            </p>
+
+            <p>Lunar Dust:
+                <strong id="emergencyDust">15%</strong>
+            </p>
+
+        </div>
+
+        <!-- Crew Safety Monitor -->
+        <h3>👨‍🚀 Crew Safety Monitor</h3>
+
+        <div class="alert-card">
+
+            <p>Heart Rate:
+                <strong id="emergencyHeartRate">75 BPM</strong>
+            </p>
+
+            <p>Blood Oxygen:
+                <strong id="emergencyCrewOxygen">98%</strong>
+            </p>
+
+            <p>Body Temperature:
+                <strong id="emergencyTemperature">37°C</strong>
+            </p>
+
+            <p>Health Status:
+                <strong id="emergencyCrewStatus">Normal</strong>
+            </p>
+
+        </div>
+
+        <!-- Emergency Recommendations -->
+        <h3>⚠️ Emergency Recommendations</h3>
+
+        <div class="recommendation">
+
+            <p id="emergencyMessage">
+                Waiting for mission readings...
+            </p>
+
+        </div>
+
+        <!-- Training Disclaimer -->
+        <p style="font-size: 12px; color: #aabbd0;">
+            Note: All readings and emergency recommendations are
+            simulated training data, not real spacecraft measurements
+            or operational safety guidance.
+        </p>
+
+        <!-- Close Button -->
+        <button class="close-button"
+            onclick="window.parent.postMessage(
+                { type: 'close-emergency' },
+                window.location.origin
+            )">
+            ✕ Close Emergency Center
+        </button>
+
+    </main>
+
+    <!-- Emergency Monitoring JavaScript -->
+    <script src="js/emergency.js"></script>
+
+</body>
+</html>

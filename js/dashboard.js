@@ -15,12 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSolarRadiation();
     updateDustMonitor();
 
-    // Send mission data to the main page every second
+    // Start crew health monitoring
+    updateCrewHealth();
+
+    // Send all mission data to the main page every second
     setInterval(function () {
 
         const resources = getMissionResources();
         const hazard = getSolarHazard();
         const dust = getDustHazard();
+        const crew = getCrewStatus();
 
         const hours = Math.floor(missionSeconds / 3600);
         const minutes = Math.floor((missionSeconds % 3600) / 60);
@@ -34,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.parent.postMessage({
 
             type: "mission-update",
+
             missionTime: missionTime,
 
             resources: {
@@ -51,11 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
             dust: {
                 dustLevel: dust.dustLevel,
                 status: dust.status
+            },
+
+            crew: {
+                heartRate: crew.heartRate,
+                oxygenLevel: crew.oxygenLevel,
+                temperature: crew.temperature,
+                healthStatus: crew.healthStatus
             }
 
         }, window.location.origin);
 
     }, 1000);
+
 
     // Refresh environmental hazards every 15 seconds
     setInterval(function () {
@@ -63,7 +76,14 @@ document.addEventListener("DOMContentLoaded", function () {
         updateDustMonitor();
     }, 15000);
 
+
+    // Refresh crew health every 10 seconds
+    setInterval(function () {
+        updateCrewHealth();
+    }, 10000);
+
 });
+
 
 // Update resource values
 function updateResourceDashboard() {
@@ -75,6 +95,7 @@ function updateResourceDashboard() {
     updateDashboardValue("foodValue", resources.food);
     updateDashboardValue("powerValue", resources.power);
 }
+
 
 // Update individual dashboard values and colours
 function updateDashboardValue(elementId, value) {
@@ -100,6 +121,7 @@ function updateDashboardValue(elementId, value) {
     }
 }
 
+
 // Update solar radiation monitor
 function updateSolarRadiation() {
 
@@ -108,6 +130,7 @@ function updateSolarRadiation() {
     updateDashboardValue("radiationValue", hazard.radiationLevel);
     updateDashboardStatus("radiationStatus", hazard.status);
 }
+
 
 // Update lunar dust monitor
 function updateDustMonitor() {
@@ -118,7 +141,33 @@ function updateDustMonitor() {
     updateDashboardStatus("dustStatus", dust.status);
 }
 
-// Update hazard status and colours
+
+// Update crew health monitor
+function updateCrewHealth() {
+
+    const crew = simulateCrewHealth();
+
+    const heartRate = document.getElementById("heartRateValue");
+    const oxygen = document.getElementById("crewOxygenValue");
+    const temperature = document.getElementById("temperatureValue");
+
+    if (heartRate) {
+        heartRate.textContent = crew.heartRate + " BPM";
+    }
+
+    if (oxygen) {
+        oxygen.textContent = crew.oxygenLevel + "%";
+    }
+
+    if (temperature) {
+        temperature.textContent = crew.temperature + "°C";
+    }
+
+    updateDashboardStatus("crewHealthStatus", crew.healthStatus);
+}
+
+
+// Update hazard and health status colours
 function updateDashboardStatus(elementId, status) {
 
     const element = document.getElementById(elementId);
