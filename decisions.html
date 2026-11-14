@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELENOVIX - Mission Decision Center</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #06152e, #102c50);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 10px;
+        }
+
+        h1 {
+            color: #55d6ff;
+            letter-spacing: 3px;
+        }
+
+        h2 { color: #55d6ff; }
+        .tagline { color: #b9d9ed; }
+
+        .panel {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(100,200,255,0.3);
+            border-radius: 12px;
+            padding: 22px;
+            margin: 20px 0;
+        }
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 15px;
+        }
+
+        .module {
+            background: rgba(255,255,255,0.06);
+            padding: 16px;
+            border-radius: 10px;
+        }
+
+        .module h3 { color: #80ddff; }
+
+        .status {
+            color: #75ffad;
+            font-weight: bold;
+        }
+
+        .choice {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border: 1px solid #55d6ff;
+            border-radius: 8px;
+            background: #123d63;
+            color: white;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .choice:hover:not(:disabled) {
+            background: #17618e;
+        }
+
+        .choice:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.25);
+            line-height: 1.6;
+        }
+
+        .score {
+            font-size: 22px;
+            color: #75ffad;
+            font-weight: bold;
+        }
+
+        .report-button {
+            text-align: center;
+            background: #087eae;
+            border: none;
+            font-weight: bold;
+        }
+
+        .report-button:disabled {
+            background: #42566b;
+        }
+
+        .footer {
+            text-align: center;
+            color: #9bb6ce;
+            padding: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>SELENOVIX</h1>
+        <h2>MISSION DECISION CENTER</h2>
+        <p class="tagline">Train for the Moon. Lead the Mission.</p>
+    </header>
+
+    <section class="panel">
+        <h2>🚀 Mission Decision Control</h2>
+        <p>Welcome to the SELENOVIX astronaut decision training system.</p>
+        <p>Analyze lunar mission situations and make important decisions to protect your crew and lunar outpost.</p>
+        <p class="status">SYSTEM STATUS: INITIALIZED</p>
+    </section>
+
+    <section class="panel">
+        <h2>Mission Training Modules</h2>
+
+        <div class="modules">
+            <div class="module">
+                <h3>☀️ Solar Radiation</h3>
+                <p>Respond to dangerous solar radiation conditions.</p>
+            </div>
+
+            <div class="module">
+                <h3>🫁 Oxygen Emergency</h3>
+                <p>Manage critical oxygen supply situations.</p>
+            </div>
+
+            <div class="module">
+                <h3>🌑 Lunar Dust</h3>
+                <p>Handle hazardous lunar dust conditions.</p>
+            </div>
+
+            <div class="module">
+                <h3>⚡ Power Failure</h3>
+                <p>Make decisions during an outpost power shortage.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>🧠 Mission Consequence Engine</h2>
+        <p>The engine analyzes astronaut decisions and calculates their effects on mission resources, crew safety and outpost survival.</p>
+        <p class="status">CONSEQUENCE ENGINE: INITIALIZED</p>
+    </section>
+
+    <!-- SOLAR RADIATION -->
+
+    <section class="panel" id="solarScenario">
+        <h2>☀️ Solar Radiation Emergency</h2>
+
+        <p>A sudden solar radiation warning has been detected near the lunar outpost. You are the mission commander.</p>
+
+        <h3>What should you do?</h3>
+
+        <button class="choice" onclick="selectSolar(1)">
+            1. Enter Radiation Shelter
+            <br><small>Move the entire crew into the protected shelter.</small>
+        </button>
+
+        <button class="choice" onclick="selectSolar(2)">
+            2. Continue Outdoor Mission
+            <br><small>Continue working outside despite the warning.</small>
+        </button>
+
+        <button class="choice" onclick="selectSolar(3)">
+            3. Stop Outdoor Operations
+            <br><small>Suspend outdoor activities and assess conditions.</small>
+        </button>
+
+        <div class="result" id="solarResult">Awaiting your decision...</div>
+        <p>Solar Scenario Score:</p>
+        <div class="score" id="solarScore">100 / 100</div>
+    </section>
+
+    <!-- OXYGEN EMERGENCY -->
+
+    <section class="panel" id="oxygenScenario">
+        <h2>🫁 Oxygen Supply Emergency</h2>
+
+        <p>WARNING: The simulated outpost oxygen reserve has fallen to 15%. The crew must respond immediately.</p>
+
+        <h3>What should you do?</h3>
+
+        <button class="choice" onclick="selectOxygen(1)">
+            1. Activate Backup Oxygen System
+            <br><small>Switch to the simulated backup oxygen supply.</small>
+        </button>
+
+        <button class="choice" onclick="selectOxygen(2)">
+            2. Continue Normal Operations
+            <br><small>Ignore the warning and continue the mission.</small>
+        </button>
+
+        <button class="choice" onclick="selectOxygen(3)">
+            3. Suspend Non-Essential Activities
+            <br><small>Reduce simulated oxygen demand and assess the reserve.</small>
+        </button>
+
+        <div class="result" id="oxygenResult">Awaiting your oxygen emergency decision...</div>
+        <p>Oxygen Scenario Score:</p>
+        <div class="score" id="oxygenScore">100 / 100</div>
+    </section>
+
+    <!-- LUNAR DUST -->
+
+    <section class="panel" id="dustScenario">
+        <h2>🌑 Lunar Dust Emergency</h2>
+
+        <p>A simulated lunar dust storm has increased dust levels around the outpost. Fine lunar dust may affect equipment, solar panels and astronaut suits.</p>
+
+        <h3>What should you do?</h3>
+
+        <button class="choice" onclick="selectDust(1)">
+            1. Suspend Outdoor Activities
+            <br><small>Bring the crew indoors and pause external operations.</small>
+        </button>
+
+        <button class="choice" onclick="selectDust(2)">
+            2. Continue Outdoor Activities
+            <br><small>Continue working despite the dust warning.</small>
+        </button>
+
+        <button class="choice" onclick="selectDust(3)">
+            3. Inspect and Protect Equipment
+            <br><small>Check exposed equipment and assess possible dust contamination.</small>
+        </button>
+
+        <div class="result" id="dustResult">Awaiting your lunar dust emergency decision...</div>
+        <p>Lunar Dust Scenario Score:</p>
+        <div class="score" id="dustScore">100 / 100</div>
+    </section>
+
+    <!-- POWER FAILURE -->
+
+    <section class="panel" id="powerScenario">
+        <h2>⚡ Outpost Power Failure</h2>
+
+        <p>WARNING: The simulated lunar outpost battery reserve has dropped to 12%. Essential systems require power, including life support, communication and habitat lighting.</p>
+
+        <h3>What should you do?</h3>
+
+        <button class="choice" onclick="selectPower(1)">
+            1. Prioritize Essential Systems
+            <br><small>Preserve simulated power for life support and communications.</small>
+        </button>
+
+        <button class="choice" onclick="selectPower(2)">
+            2. Keep All Systems Running
+            <br><small>Continue operating every system despite the low battery reserve.</small>
+        </button>
+
+        <button class="choice" onclick="selectPower(3)">
+            3. Activate Backup Power
+            <br><small>Switch to the simulated backup power supply and assess the system.</small>
+        </button>
+
+        <div class="result" id="powerResult">Awaiting your power failure decision...</div>
+        <p>Power Failure Scenario Score:</p>
+        <div class="score" id="powerScore">100 / 100</div>
+    </section>
+
+    <!-- MISSION PERFORMANCE REPORT -->
+
+    <section class="panel" id="performanceReport">
+        <h2>🏆 Mission Performance Report</h2>
+
+        <p>
+            Complete all four training scenarios to evaluate
+            your astronaut decision-making performance.
+        </p>
+
+        <p>Scenarios Completed:</p>
+        <div class="score" id="completedCount">0 / 4</div>
+
+        <p>Overall Mission Score:</p>
+        <div class="score" id="overallScore">Not calculated</div>
+
+        <h3 id="performanceLevel">Awaiting mission completion...</h3>
+
+        <p id="performanceMessage">
+            Your final performance report will appear here
+            after all four scenarios are completed.
+        </p>
+
+        <button
+            class="choice report-button"
+            id="reportButton"
+            onclick="generateMissionReport()"
+            disabled>
+            Generate Mission Report
+        </button>
+    </section>
+
+    <p class="status" id="decisionStatus">DECISION ENGINE: CONNECTED</p>
+
+    <div class="footer">
+        SELENOVIX | Junior Astronaut Mission Trainer
+        <br><br>
+        Training simulation — not operational spacecraft guidance.
+    </div>
+
+</div>
+
+<script src="js/decisions.js"></script>
+
+<script>
+    // Scenario completion tracking
+
+    let solarCompleted = false;
+    let oxygenCompleted = false;
+    let dustCompleted = false;
+    let powerCompleted = false;
+
+    // Individual scenario scores
+
+    let solarScenarioScore = 100;
+    let oxygenScenarioScore = 100;
+    let dustScenarioScore = 100;
+    let powerScenarioScore = 100;
+
+    // Complete a scenario and display its result
+
+    function finishScenario(
+        resultId,
+        scoreId,
+        sectionId,
+        message,
+        score
+    ) {
+        document.getElementById(resultId).innerHTML =
+            "<strong>MISSION CONSEQUENCE</strong><br>" + message;
+
+        document.getElementById(scoreId).textContent =
+            score + " / 100";
+
+        document.querySelectorAll(
+            "#" + sectionId + " .choice"
+        ).forEach(button => button.disabled = true);
+
+        updateMissionProgress();
+    }
+
+    // Solar Radiation Decision
+
+    function selectSolar(choiceId) {
+        if (solarCompleted) return;
+
+        const result = makeMissionDecision(choiceId);
+        if (!result) return;
+
+        solarCompleted = true;
+        solarScenarioScore = result.score;
+
+        finishScenario(
+            "solarResult",
+            "solarScore",
+            "solarScenario",
+            result.message,
+            solarScenarioScore
+        );
+    }
+
+    // Oxygen Emergency Decision
+
+    function selectOxygen(choiceId) {
+        if (oxygenCompleted) return;
+
+        const choices = {
+            1: {
+                message: "Excellent decision! The simulated backup oxygen system has been activated. The crew can begin a controlled assessment.",
+                change: 10
+            },
+            2: {
+                message: "Dangerous decision! Ignoring a critical oxygen warning increases the simulated risk to crew safety.",
+                change: -25
+            },
+            3: {
+                message: "Good decision! Non-essential activities have been suspended while the oxygen reserve is assessed.",
+                change: 5
+            }
+        };
+
+        const choice = choices[choiceId];
+        if (!choice) return;
+
+        oxygenCompleted = true;
+
+        oxygenScenarioScore = Math.max(
+            0,
+            Math.min(100, 100 + choice.change)
+        );
+
+        finishScenario(
+            "oxygenResult",
+            "oxygenScore",
+            "oxygenScenario",
+            choice.message,
+            oxygenScenarioScore
+        );
+    }
+
+    // Lunar Dust Decision
+
+    function selectDust(choiceId) {
+        if (dustCompleted) return;
+
+        const choices = {
+            1: {
+                message: "Excellent decision! Outdoor activities have been suspended and the crew has returned to the outpost. The simulated exposure risk is reduced.",
+                change: 10
+            },
+            2: {
+                message: "Dangerous decision! Continuing outdoor activities during a dust warning may expose the crew and equipment to additional hazards.",
+                change: -25
+            },
+            3: {
+                message: "Good decision! Equipment inspection and protective checks have been prioritized. The crew can assess the simulated dust impact.",
+                change: 5
+            }
+        };
+
+        const choice = choices[choiceId];
+        if (!choice) return;
+
+        dustCompleted = true;
+
+        dustScenarioScore = Math.max(
+            0,
+            Math.min(100, 100 + choice.change)
+        );
+
+        finishScenario(
+            "dustResult",
+            "dustScore",
+            "dustScenario",
+            choice.message,
+            dustScenarioScore
+        );
+    }
+
+    // Power Failure Decision
+
+    function selectPower(choiceId) {
+        if (powerCompleted) return;
+
+        const choices = {
+            1: {
+                message: "Excellent decision! Essential systems have been prioritized in the simulation. Non-essential power use has been reduced.",
+                change: 10
+            },
+            2: {
+                message: "Dangerous decision! Keeping every system running may drain the simulated battery reserve and threaten essential operations.",
+                change: -25
+            },
+            3: {
+                message: "Good decision! The simulated backup power system has been activated and the outpost power status is being assessed.",
+                change: 5
+            }
+        };
+
+        const choice = choices[choiceId];
+        if (!choice) return;
+
+        powerCompleted = true;
+
+        powerScenarioScore = Math.max(
+            0,
+            Math.min(100, 100 + choice.change)
+        );
+
+        finishScenario(
+            "powerResult",
+            "powerScore",
+            "powerScenario",
+            choice.message,
+            powerScenarioScore
+        );
+    }
+
+    // Update mission progress
+
+    function updateMissionProgress() {
+
+        const completed = [
+            solarCompleted,
+            oxygenCompleted,
+            dustCompleted,
+            powerCompleted
+        ].filter(Boolean).length;
+
+        document.getElementById("completedCount").textContent =
+            completed + " / 4";
+
+        document.getElementById("reportButton").disabled =
+            completed !== 4;
+    }
+
+    // Generate final performance report
+
+    function generateMissionReport() {
+
+        if (
+            !solarCompleted ||
+            !oxygenCompleted ||
+            !dustCompleted ||
+            !powerCompleted
+        ) {
+            return;
+        }
+
+        const totalScore =
+            solarScenarioScore +
+            oxygenScenarioScore +
+            dustScenarioScore +
+            powerScenarioScore;
+
+        const averageScore = Math.round(totalScore / 4);
+
+        let level = "";
+        let message = "";
+
+        if (averageScore >= 90) {
+            level = "🏆 MISSION COMMANDER";
+            message = "Outstanding performance! You demonstrated excellent decision-making across all four training scenarios.";
+        }
+        else if (averageScore >= 75) {
+            level = "⭐ EXPERT ASTRONAUT";
+            message = "Great work! You made strong mission decisions. Continue improving your emergency response skills.";
+        }
+        else if (averageScore >= 50) {
+            level = "🚀 JUNIOR ASTRONAUT";
+            message = "Good effort! Review the consequences of your decisions and continue practicing.";
+        }
+        else {
+            level = "⚠️ MISSION TRAINING REQUIRED";
+            message = "Your decisions need improvement. Practice the scenarios again to strengthen your mission management skills.";
+        }
+
+        document.getElementById("overallScore").textContent =
+            averageScore + " / 100";
+
+        document.getElementById("performanceLevel").textContent =
+            level;
+
+        document.getElementById("performanceMessage").textContent =
+            message;
+
+        document.getElementById("reportButton").textContent =
+            "MISSION REPORT GENERATED";
+
+        document.getElementById("reportButton").disabled = true;
+
+        document.getElementById("decisionStatus").textContent =
+            "ALL TRAINING SCENARIOS COMPLETED";
+    }
+</script>
+
+</body>
+</html>

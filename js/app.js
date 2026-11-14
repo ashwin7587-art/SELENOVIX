@@ -28,6 +28,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     startButton.insertAdjacentElement("afterend", emergencyButton);
 
+    // Create Decision Center button
+    const decisionButton = document.createElement("button");
+
+    decisionButton.textContent = "🧠 Decision Center";
+
+    decisionButton.style.cssText = `
+        display: block;
+        margin: 15px auto;
+        padding: 12px 22px;
+        background: #1769aa;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    `;
+
+    emergencyButton.insertAdjacentElement("afterend", decisionButton);
+
+
     // Open mission dashboard
     startButton.addEventListener("click", function () {
 
@@ -167,6 +187,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+
+    // Open separate Decision Center popup
+    decisionButton.addEventListener("click", function () {
+
+        let overlay = document.getElementById("decisionOverlay");
+
+        if (overlay) {
+            overlay.style.display = "flex";
+            return;
+        }
+
+        overlay = document.createElement("div");
+        overlay.id = "decisionOverlay";
+
+        overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+        `;
+
+        const panel = document.createElement("div");
+
+        panel.style.cssText = `
+            width: 92%;
+            max-width: 1000px;
+            height: 90vh;
+            background: #071a35;
+            border: 2px solid #55c8ff;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        `;
+
+        const closeButton = document.createElement("button");
+
+        closeButton.textContent = "✕ Close";
+
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            padding: 8px 14px;
+            cursor: pointer;
+        `;
+
+        closeButton.addEventListener("click", function () {
+            overlay.style.display = "none";
+        });
+
+        const frame = document.createElement("iframe");
+
+        frame.id = "decisionFrame";
+        frame.src = "decisions.html";
+
+        frame.style.cssText = `
+            width: 100%;
+            height: 100%;
+            border: none;
+        `;
+
+        panel.appendChild(closeButton);
+        panel.appendChild(frame);
+
+        overlay.appendChild(panel);
+
+        document.body.appendChild(overlay);
+
+    });
+
 });
 
 
@@ -181,6 +275,7 @@ window.addEventListener("message", function (event) {
 
     // Close Emergency Center when requested
     if (data.type === "close-emergency") {
+
         const overlay = document.getElementById("emergencyOverlay");
 
         if (overlay) {
