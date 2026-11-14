@@ -1,6 +1,33 @@
 
 // SELENOVIX - Main Application
 
+// Forward NASA data to the Decision Center
+function sendNASADataToDecisionCenter() {
+
+    const frame = document.getElementById("decisionFrame");
+
+    if (
+        frame &&
+        frame.contentWindow &&
+        window.selenovixNASAData
+    ) {
+        frame.contentWindow.postMessage(
+            {
+                type: "nasa-space-weather",
+                data: window.selenovixNASAData
+            },
+            window.location.origin
+        );
+    }
+}
+
+// Listen for NASA data from nasa.js
+window.addEventListener(
+    "selenovix-nasa-data",
+    sendNASADataToDecisionCenter
+);
+
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const startButton = document.getElementById("startMission");
@@ -195,6 +222,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (overlay) {
             overlay.style.display = "flex";
+
+            // Send NASA data whenever the Decision Center is reopened
+            sendNASADataToDecisionCenter();
+
             return;
         }
 
@@ -252,6 +283,11 @@ document.addEventListener("DOMContentLoaded", function () {
             border: none;
         `;
 
+        // Send NASA data after the Decision Center finishes loading
+        frame.addEventListener("load", function () {
+            sendNASADataToDecisionCenter();
+        });
+
         panel.appendChild(closeButton);
         panel.appendChild(frame);
 
@@ -285,6 +321,7 @@ window.addEventListener("message", function (event) {
         return;
     }
 
+    // Ignore NASA messages in the mission-update handler
     if (data.type !== "mission-update") return;
 
     // Update main page mission timer

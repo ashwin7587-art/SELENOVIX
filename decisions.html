@@ -110,6 +110,46 @@
             background: #42566b;
         }
 
+        .nasa-card {
+            background: rgba(0, 40, 75, 0.65);
+            border: 1px solid #258bce;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 15px;
+        }
+
+        .nasa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .nasa-stat {
+            background: rgba(255,255,255,0.07);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .nasa-number {
+            display: block;
+            color: #75ffad;
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .nasa-note {
+            color: #ffcf8a;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .nasa-link {
+            color: #65c8ff;
+            font-weight: bold;
+        }
+
         .footer {
             text-align: center;
             color: #9bb6ce;
@@ -134,6 +174,75 @@
         <p>Welcome to the SELENOVIX astronaut decision training system.</p>
         <p>Analyze lunar mission situations and make important decisions to protect your crew and lunar outpost.</p>
         <p class="status">SYSTEM STATUS: INITIALIZED</p>
+    </section>
+
+    <!-- NASA SPACE WEATHER CONTEXT -->
+
+    <section class="panel" id="nasaDecisionPanel">
+        <h2>🛰️ NASA Space Weather Mission Context</h2>
+
+        <p>
+            NASA DONKI observations provide real space-weather event
+            information to support the solar emergency training scenario.
+        </p>
+
+        <div class="nasa-card">
+
+            <p class="status" id="nasaConnectionStatus">
+                WAITING FOR NASA DATA...
+            </p>
+
+            <div class="nasa-grid">
+
+                <div class="nasa-stat">
+                    Solar Flares
+                    <span class="nasa-number" id="decisionFlareCount">--</span>
+                </div>
+
+                <div class="nasa-stat">
+                    Coronal Mass Ejections
+                    <span class="nasa-number" id="decisionCMECount">--</span>
+                </div>
+
+            </div>
+
+            <p>
+                Last NASA data retrieval:
+                <strong id="decisionNASAUpdated">Waiting...</strong>
+            </p>
+
+            <p id="nasaDecisionContext">
+                NASA space-weather information will appear here when
+                the main application sends the retrieved data.
+            </p>
+
+            <p class="nasa-note">
+                Important scientific distinction: NASA DONKI event counts
+                describe recorded solar events. They do not measure
+                astronaut radiation exposure or radiation dose at the
+                lunar South Pole.
+            </p>
+
+            <p class="nasa-note">
+                The radiation emergency below remains a training
+                simulation. NASA event information is contextual
+                observational data, not a direct hazard measurement.
+            </p>
+
+            <p>
+                Data source:
+                <strong>NASA CCMC DONKI</strong>
+            </p>
+
+            <a
+                class="nasa-link"
+                href="https://ccmc.gsfc.nasa.gov/tools/DONKI/"
+                target="_blank"
+                rel="noopener noreferrer">
+                Explore NASA DONKI ↗
+            </a>
+
+        </div>
     </section>
 
     <section class="panel">
@@ -329,6 +438,61 @@
 <script src="js/decisions.js"></script>
 
 <script>
+    // Receive NASA data from the main application
+
+    window.addEventListener("message", function(event) {
+
+        if (event.origin !== window.location.origin) return;
+
+        const message = event.data;
+
+        if (
+            !message ||
+            message.type !== "nasa-space-weather" ||
+            !message.data
+        ) {
+            return;
+        }
+
+        const data = message.data;
+
+        const flares = Array.isArray(data.solarFlares)
+            ? data.solarFlares
+            : [];
+
+        const cmes = Array.isArray(data.coronalMassEjections)
+            ? data.coronalMassEjections
+            : [];
+
+        document.getElementById("decisionFlareCount").textContent =
+            flares.length;
+
+        document.getElementById("decisionCMECount").textContent =
+            cmes.length;
+
+        document.getElementById("decisionNASAUpdated").textContent =
+            data.lastUpdated
+                ? new Date(data.lastUpdated).toLocaleString()
+                : "Unavailable";
+
+        document.getElementById("nasaConnectionStatus").textContent =
+            "NASA DATA RECEIVED SUCCESSFULLY";
+
+        document.getElementById("nasaDecisionContext").textContent =
+            "NASA DONKI reports " + flares.length +
+            " solar flares and " + cmes.length +
+            " coronal mass ejections in the retrieved seven-day period. " +
+            "These observations provide space-weather context for mission " +
+            "training, but do not establish radiation exposure at the outpost.";
+
+        console.log(
+            "SELENOVIX Decision Center received NASA data:",
+            data
+        );
+
+    });
+
+
     // Scenario completion tracking
 
     let solarCompleted = false;

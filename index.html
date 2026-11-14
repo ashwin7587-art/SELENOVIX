@@ -215,6 +215,38 @@
 
             </div>
 
+            <!-- NASA Space Weather Panel -->
+
+            <div class="hazard-card" id="nasaWeatherPanel">
+
+                <h3>🛰️ NASA Live Space Weather</h3>
+
+                <p>
+                    Data Source:
+                    <strong>NASA CCMC DONKI</strong>
+                </p>
+
+                <p>
+                    Solar Flares:
+                    <strong id="nasaFlareCount">Loading...</strong>
+                </p>
+
+                <p>
+                    Coronal Mass Ejections:
+                    <strong id="nasaCMECount">Loading...</strong>
+                </p>
+
+                <p>
+                    Last Updated:
+                    <strong id="nasaLastUpdated">Waiting for data...</strong>
+                </p>
+
+                <p id="nasaWeatherStatus">
+                    Connecting to NASA...
+                </p>
+
+            </div>
+
             <!-- Solar Radiation Monitor -->
 
             <div class="hazard-card">
@@ -231,6 +263,11 @@
                     <strong id="radiationStatus" class="status-normal">
                         Normal
                     </strong>
+                </p>
+
+                <p>
+                    Note: Radiation level is a simulated training value,
+                    not a direct NASA radiation measurement.
                 </p>
 
             </div>
@@ -254,6 +291,7 @@
     <script src="js/resources.js"></script>
     <script src="js/simulation.js"></script>
     <script src="js/solar.js"></script>
+    <script src="js/nasa.js"></script>
     <script src="js/app.js"></script>
 
 </body>
