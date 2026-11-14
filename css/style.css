@@ -1,0 +1,119 @@
+
+/* SELENOVIX - Main Website Design */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #050816, #101b38, #07152b);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* Header */
+
+header {
+    text-align: center;
+    padding: 35px 20px;
+    background: rgba(4, 12, 30, 0.9);
+    border-bottom: 1px solid #1b9fff;
+}
+
+header h1 {
+    font-size: 42px;
+    letter-spacing: 5px;
+    color: #42caff;
+}
+
+header p {
+    margin-top: 10px;
+    color: #b7dfff;
+    font-size: 16px;
+}
+
+/* Main Content */
+
+main {
+    width: 90%;
+    max-width: 1000px;
+    margin: 60px auto;
+}
+
+/* Welcome Section */
+
+.welcome {
+    text-align: center;
+    padding: 65px 25px;
+    background: rgba(20, 43, 78, 0.75);
+    border: 1px solid #258bce;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 160, 255, 0.15);
+}
+
+.welcome h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.welcome p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #c9e6ff;
+}
+
+/* Start Mission Button */
+
+button {
+    margin-top: 30px;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    background: #08a9e8;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #007bb5;
+    transform: scale(1.05);
+}
+
+/* Mission Information */
+
+.mission-info {
+    margin-top: 30px;
+    padding: 35px;
+    background: rgba(13, 30, 57, 0.9);
+    border-left: 4px solid #42caff;
+    border-radius: 10px;
+}
+
+.mission-info h2 {
+    color: #42caff;
+    margin-bottom: 15px;
+}
+
+.mission-info p {
+    color: #c9d9ee;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+    color: #9ebbd8;
+    border-top: 1px solid #243b5b;
+    font-size: 14px;
+}

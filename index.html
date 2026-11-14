@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SELENOVIX | Junior Astronaut Mission Trainer</title>
+
+    <meta name="description"
+        content="SELENOVIX is an interactive junior astronaut mission trainer for lunar exploration.">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .astronaut-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .astronaut-image {
+            width: 100%;
+            max-width: 850px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 15px;
+            border: 2px solid #258bce;
+            box-shadow: 0 0 25px rgba(0, 160, 255, 0.25);
+        }
+
+        .resource-dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .resource-card {
+            text-align: center;
+            padding: 25px 10px;
+            background: rgba(20, 43, 78, 0.85);
+            border: 1px solid #258bce;
+            border-radius: 12px;
+        }
+
+        .resource-card h3 {
+            color: #42caff;
+            margin-bottom: 12px;
+        }
+
+        .resource-card p {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .mission-timer {
+            margin-top: 20px;
+        }
+
+        .hazard-card {
+            margin-top: 25px;
+            padding: 25px;
+            text-align: center;
+            background: rgba(20, 43, 78, 0.85);
+            border: 1px solid #258bce;
+            border-radius: 12px;
+        }
+
+        .hazard-card h3 {
+            color: #42caff;
+            margin-bottom: 12px;
+        }
+
+        .hazard-card p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .resource-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Website Header -->
+    <header>
+        <h1>SELENOVIX</h1>
+        <p>Junior Astronaut Mission Trainer</p>
+        <p>Train for the Moon. Lead the Mission.</p>
+    </header>
+
+    <main>
+
+        <!-- Astronaut Image -->
+        <section class="astronaut-section">
+            <img
+                src="assets/images/astronaut.png"
+                alt="Astronaut exploring the lunar surface"
+                class="astronaut-image">
+        </section>
+
+        <!-- Welcome Section -->
+        <section class="welcome">
+            <h2>Welcome, Junior Astronaut!</h2>
+
+            <p>
+                Prepare yourself for an exciting mission
+                to the Lunar South Pole.
+            </p>
+
+            <button id="startMission" type="button">
+                Start Mission
+            </button>
+        </section>
+
+        <!-- Mission Introduction -->
+        <section class="mission-info">
+            <h2>Your Mission</h2>
+
+            <p>
+                Explore the Moon, manage your resources,
+                protect your crew, and make critical
+                mission decisions.
+            </p>
+        </section>
+
+        <!-- Lunar Mission Dashboard -->
+        <section class="mission-info">
+
+            <h2>🌕 Lunar Mission Control</h2>
+
+            <p>
+                Monitor your mission resources,
+                Junior Astronaut!
+            </p>
+
+            <!-- Mission Timer -->
+            <div class="resource-card mission-timer">
+                <h3>⏱️ Mission Elapsed Time</h3>
+                <p id="missionTimer">00:00:00</p>
+            </div>
+
+            <!-- Resource Dashboard -->
+            <div class="resource-dashboard">
+
+                <div class="resource-card">
+                    <h3>Oxygen</h3>
+                    <p id="oxygenValue">100%</p>
+                </div>
+
+                <div class="resource-card">
+                    <h3>Water</h3>
+                    <p id="waterValue">100%</p>
+                </div>
+
+                <div class="resource-card">
+                    <h3>Food</h3>
+                    <p id="foodValue">100%</p>
+                </div>
+
+                <div class="resource-card">
+                    <h3>Power</h3>
+                    <p id="powerValue">100%</p>
+                </div>
+
+            </div>
+
+            <!-- Solar Radiation Monitor -->
+            <div class="hazard-card">
+                <h3>☀️ Solar Radiation Monitor</h3>
+
+                <p>
+                    Radiation Level:
+                    <strong id="radiationValue">20%</strong>
+                </p>
+
+                <p>
+                    Hazard Status:
+                    <strong id="radiationStatus">Normal</strong>
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Website Footer -->
+    <footer>
+        <p>
+            SELENOVIX | Train for the Moon. Lead the Mission.
+        </p>
+    </footer>
+
+    <!-- Connect JavaScript Files -->
+    <script src="js/resources.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/solar.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
