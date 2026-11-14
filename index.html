@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+        /* Astronaut Image */
+
         .astronaut-section {
             text-align: center;
             margin-bottom: 30px;
@@ -30,6 +32,8 @@
             box-shadow: 0 0 25px rgba(0, 160, 255, 0.25);
         }
 
+        /* Resource Dashboard */
+
         .resource-dashboard {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -43,6 +47,7 @@
             background: rgba(20, 43, 78, 0.85);
             border: 1px solid #258bce;
             border-radius: 12px;
+            transition: 0.3s;
         }
 
         .resource-card h3 {
@@ -56,9 +61,27 @@
             font-weight: bold;
         }
 
+        /* Resource Status Colors */
+
+        .status-normal {
+            color: #32e875 !important;
+        }
+
+        .status-warning {
+            color: #ffd43b !important;
+        }
+
+        .status-danger {
+            color: #ff4545 !important;
+        }
+
+        /* Mission Timer */
+
         .mission-timer {
             margin-top: 20px;
         }
+
+        /* Solar Radiation Monitor */
 
         .hazard-card {
             margin-top: 25px;
@@ -79,9 +102,15 @@
             margin: 10px 0;
         }
 
+        /* Mobile Responsive Design */
+
         @media (max-width: 600px) {
             .resource-dashboard {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .welcome h2 {
+                font-size: 25px;
             }
         }
     </style>
@@ -90,6 +119,7 @@
 <body>
 
     <!-- Website Header -->
+
     <header>
         <h1>SELENOVIX</h1>
         <p>Junior Astronaut Mission Trainer</p>
@@ -99,6 +129,7 @@
     <main>
 
         <!-- Astronaut Image -->
+
         <section class="astronaut-section">
             <img
                 src="assets/images/astronaut.png"
@@ -107,7 +138,9 @@
         </section>
 
         <!-- Welcome Section -->
+
         <section class="welcome">
+
             <h2>Welcome, Junior Astronaut!</h2>
 
             <p>
@@ -118,10 +151,13 @@
             <button id="startMission" type="button">
                 Start Mission
             </button>
+
         </section>
 
         <!-- Mission Introduction -->
+
         <section class="mission-info">
+
             <h2>Your Mission</h2>
 
             <p>
@@ -129,9 +165,11 @@
                 protect your crew, and make critical
                 mission decisions.
             </p>
+
         </section>
 
         <!-- Lunar Mission Dashboard -->
+
         <section class="mission-info">
 
             <h2>🌕 Lunar Mission Control</h2>
@@ -142,38 +180,45 @@
             </p>
 
             <!-- Mission Timer -->
+
             <div class="resource-card mission-timer">
+
                 <h3>⏱️ Mission Elapsed Time</h3>
+
                 <p id="missionTimer">00:00:00</p>
+
             </div>
 
             <!-- Resource Dashboard -->
+
             <div class="resource-dashboard">
 
                 <div class="resource-card">
-                    <h3>Oxygen</h3>
-                    <p id="oxygenValue">100%</p>
+                    <h3>🫁 Oxygen</h3>
+                    <p id="oxygenValue" class="status-normal">100%</p>
                 </div>
 
                 <div class="resource-card">
-                    <h3>Water</h3>
-                    <p id="waterValue">100%</p>
+                    <h3>💧 Water</h3>
+                    <p id="waterValue" class="status-normal">100%</p>
                 </div>
 
                 <div class="resource-card">
-                    <h3>Food</h3>
-                    <p id="foodValue">100%</p>
+                    <h3>🍎 Food</h3>
+                    <p id="foodValue" class="status-normal">100%</p>
                 </div>
 
                 <div class="resource-card">
-                    <h3>Power</h3>
-                    <p id="powerValue">100%</p>
+                    <h3>⚡ Power</h3>
+                    <p id="powerValue" class="status-normal">100%</p>
                 </div>
 
             </div>
 
             <!-- Solar Radiation Monitor -->
+
             <div class="hazard-card">
+
                 <h3>☀️ Solar Radiation Monitor</h3>
 
                 <p>
@@ -183,7 +228,9 @@
 
                 <p>
                     Hazard Status:
-                    <strong id="radiationStatus">Normal</strong>
+                    <strong id="radiationStatus" class="status-normal">
+                        Normal
+                    </strong>
                 </p>
 
             </div>
@@ -193,13 +240,17 @@
     </main>
 
     <!-- Website Footer -->
+
     <footer>
+
         <p>
             SELENOVIX | Train for the Moon. Lead the Mission.
         </p>
+
     </footer>
 
-    <!-- Connect JavaScript Files -->
+    <!-- JavaScript Files -->
+
     <script src="js/resources.js"></script>
     <script src="js/simulation.js"></script>
     <script src="js/solar.js"></script>

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SELENOVIX - Mission Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .monitor-card {
+            background: #10294a;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+        }
+
+        .status-normal {
+            color: #32e875 !important;
+        }
+
+        .status-warning {
+            color: #ffd43b !important;
+        }
+
+        .status-danger {
+            color: #ff4545 !important;
+        }
+
+        main {
+            padding: 25px;
+            overflow-y: auto;
+            height: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>SELENOVIX</h1>
+        <p>Junior Astronaut Mission Dashboard</p>
+    </header>
+
+    <main>
+
+        <h2>🌕 Mission Control Center</h2>
+
+        <h3>⏱️ Mission Elapsed Time</h3>
+        <h2 id="missionTimer">00:00:00</h2>
+
+        <h3>Mission Resources</h3>
+
+        <div class="monitor-card">
+            <p>🫁 Oxygen: <span id="oxygenValue" class="status-normal">100%</span></p>
+            <p>💧 Water: <span id="waterValue" class="status-normal">100%</span></p>
+            <p>🍎 Food: <span id="foodValue" class="status-normal">100%</span></p>
+            <p>⚡ Power: <span id="powerValue" class="status-normal">100%</span></p>
+        </div>
+
+        <h3>☀️ Solar Radiation Monitor</h3>
+
+        <div class="monitor-card">
+            <p>Radiation Level:
+                <span id="radiationValue">20%</span>
+            </p>
+
+            <p>Hazard Status:
+                <strong id="radiationStatus" class="status-normal">Normal</strong>
+            </p>
+        </div>
+
+        <h3>🌑 Lunar Dust Hazard Monitor</h3>
+
+        <div class="monitor-card">
+            <p>Dust Level:
+                <span id="dustValue">15%</span>
+            </p>
+
+            <p>Dust Status:
+                <strong id="dustStatus" class="status-normal">Normal</strong>
+            </p>
+        </div>
+
+    </main>
+
+    <script src="js/resources.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/solar.js"></script>
+    <script src="js/dust.js"></script>
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>

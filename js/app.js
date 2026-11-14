@@ -5,73 +5,158 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const startButton = document.getElementById("startMission");
 
+    if (!startButton) return;
+
     let missionStarted = false;
 
     startButton.addEventListener("click", function () {
 
         if (missionStarted) {
-            alert("Your lunar mission is already running!");
+            document.getElementById("dashboardOverlay").style.display = "flex";
             return;
         }
 
         missionStarted = true;
 
-        alert(
-            "Welcome, Junior Astronaut!\n\n" +
-            "Your Lunar South Pole mission has started!\n\n" +
-            "Monitor your resources and environmental hazards carefully."
-        );
+        // Create dashboard overlay
+        const overlay = document.createElement("div");
+        overlay.id = "dashboardOverlay";
 
-        // Consume mission resources
-        consumeResources();
+        overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        `;
 
-        // Update resource dashboard
-        updateResourceDashboard();
+        // Dashboard panel
+        const panel = document.createElement("div");
 
-        // Start mission timer
-        startMissionTimer();
+        panel.style.cssText = `
+            width: 90%;
+            max-width: 850px;
+            height: 85vh;
+            background: #071a35;
+            border: 2px solid #32e875;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        `;
 
-        // Simulate solar radiation
-        updateSolarRadiation();
+        // Close button
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "✕ Close";
 
-        // Change button text
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 5;
+            padding: 8px 14px;
+            cursor: pointer;
+        `;
+
+        closeButton.addEventListener("click", function () {
+            overlay.style.display = "none";
+        });
+
+        // Dashboard iframe
+        const frame = document.createElement("iframe");
+        frame.src = "dashboard.html";
+
+        frame.style.cssText = `
+            width: 100%;
+            height: 100%;
+            border: none;
+        `;
+
+        panel.appendChild(closeButton);
+        panel.appendChild(frame);
+        overlay.appendChild(panel);
+        document.body.appendChild(overlay);
+
         startButton.textContent = "Mission In Progress";
+
     });
 
 });
 
-// Update resource values
-function updateResourceDashboard() {
+// Receive dashboard updates
+window.addEventListener("message", function (event) {
 
-    const resources = getMissionResources();
+    if (event.origin !== window.location.origin) return;
 
-    document.getElementById("oxygenValue").textContent =
-        resources.oxygen + "%";
+    const data = event.data;
 
-    document.getElementById("waterValue").textContent =
-        resources.water + "%";
+    if (!data || data.type !== "mission-update") return;
 
-    document.getElementById("foodValue").textContent =
-        resources.food + "%";
+    // Update mission timer
+    const timer = document.getElementById("missionTimer");
 
-    document.getElementById("powerValue").textContent =
-        resources.power + "%";
-}
+    if (timer && data.missionTime) {
+        timer.textContent = data.missionTime;
+    }
 
-// Update solar radiation monitor
-function updateSolarRadiation() {
+    // Update resources
+    if (data.resources) {
+        updateResourceCard("oxygenValue", data.resources.oxygen);
+        updateResourceCard("waterValue", data.resources.water);
+        updateResourceCard("foodValue", data.resources.food);
+        updateResourceCard("powerValue", data.resources.power);
+    }
 
-    const hazard = simulateSolarRadiation();
+    // Update radiation
+    if (data.hazard) {
+        const value = document.getElementById("radiationValue");
+        const status = document.getElementById("radiationStatus");
 
-    document.getElementById("radiationValue").textContent =
-        hazard.radiationLevel + "%";
+        if (value) {
+            value.textContent = data.hazard.radiationLevel + "%";
+        }
 
-    document.getElementById("radiationStatus").textContent =
-        hazard.status;
+        if (status) {
+            status.textContent = data.hazard.status;
+            status.classList.remove(
+                "status-normal",
+                "status-warning",
+                "status-danger"
+            );
 
-    if (hazard.status === "DANGER") {
-        alert("DANGER! High solar radiation detected. Protect your crew!");
-    } else if (hazard.status === "WARNING") {
-        alert("WARNING! Solar radiation is increasing. Monitor your crew!");
+            if (data.hazard.status === "DANGER") {
+                status.classList.add("status-danger");
+            } else if (data.hazard.status === "WARNING") {
+                status.classList.add("status-warning");
+            } else {
+                status.classList.add("status-normal");
+            }
+        }
+    }
+
+});
+
+// Update resource cards and their colours
+function updateResourceCard(elementId, value) {
+
+    const element = document.getElementById(elementId);
+
+    if (!element) return;
+
+    element.textContent = value + "%";
+
+    element.classList.remove(
+        "status-normal",
+        "status-warning",
+        "status-danger"
+    );
+
+    if (value >= 70) {
+        element.classList.add("status-normal");
+    } else if (value > 30) {
+        element.classList.add("status-warning");
+    } else {
+        element.classList.add("status-danger");
     }
 }
